@@ -22,14 +22,15 @@ fetch("https://health.gov/myhealthfinder/api/v3/topicsearch.json?keyword=skin")
 	for (let i = 0; i < contentSections.length; i++) {
 		console.log(contentSections[i].Title);
 		
-		let h2 = document.createElement('h2');
+		//let h2 = document.createElement('h2');
 		
 		let div1 = document.getElementById('my-data')
-		h2.textContent = contentSections[i].Title;
-		div1.appendChild(h2);
+		//h2.textContent = contentSections[i].Title;
+		//div1.appendChild(h2);
 	
 		let div = document.createElement('div');
-		div.innerHTML = contentSections[i].Content;
+		div.innerHTML = '<h2>' + contentSections[i].Title + '</h2>';
+		div.innerHTML += contentSections[i].Content;
 		document.body.appendChild(div);
 		
 		console.log(contentSections[i].Content);
