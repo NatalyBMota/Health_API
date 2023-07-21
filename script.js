@@ -1,4 +1,4 @@
-let keyword = 'physical+activity'; //flu, preeclampsia, osteoporosis, tuberculosis, skin, weight, bone+density, weight, checkups, physical+activity, heart, lungs, cancer, diabetes, vaccines 
+let keyword = 'physical+activity'; 
 
 function turnKeywordIntoHeaderTxt(keyword) {
 	wordLength = keyword.length;
@@ -48,6 +48,8 @@ function createTitleFromMultipleWords(wordsArr) {
 	return wordsUnitedIntoTitle;
 }
 
+let numOfContentDivs;
+
 function populateWebPageWithServerData(jsonData) {
 	const resource = jsonData.Result.Resources.Resource[0];
 	let infoLinkURL = resource.AccessibleVersion;
@@ -56,15 +58,42 @@ function populateWebPageWithServerData(jsonData) {
 	let contentSections = resource.Sections.section;
 	let h1 = document.createElement('h1');
 	h1.innerText = title;
+	h1.id = "contentTitle";
 	document.body.appendChild(h1);
 
 	let img = document.createElement("img");
-	img.setAttribute("src", imgURL);
-	img.setAttribute("width", 400)
-	document.body.appendChild(img);
 
-	for (let i = 0; i < contentSections.length; i++) {			
+	img.src = imgURL;
+	/* 
+		The line of code above is the equivalent of the following line of code:
+		img.setAttribute("src", imgURL);
+	*/
+
+	img.id = "image";
+
+	img.style.width = "25rem";
+	/* 
+		The line of code above is similar to the following; and produces almost the same effect:
+		img.setAttribute("width", 400);
+	*/
+
+	document.body.appendChild(img);
+	populateWebPageWithArticleTxt(contentSections);
+	//console.log(resource);
+	createLinkToArticleSource(infoLinkURL);
+	
+}
+
+function populateWebPageWithArticleTxt(contentSections) {
+	numOfContentDivs = contentSections.length;
+
+	for (let i = 0; i < numOfContentDivs; i++) {			
 		let div = document.createElement('div');
+		div.id = `contentDiv${i}`;
+		/* The code above is the same as the following: 
+		div.setAttribute('id', `contentDiv${i}`);
+		*/
+
 		if (contentSections[i].Title !== null) {
 			div.innerHTML = `<h2> ${contentSections[i].Title} </h2>`;
 			div.innerHTML += contentSections[i].Content;
@@ -74,26 +103,39 @@ function populateWebPageWithServerData(jsonData) {
 		}
 		document.body.appendChild(div);
 	}
-	console.log(resource);
+}
 
+function createLinkToArticleSource(linkURL) {
 	let a = document.createElement('a'); 
 	let link = document.createTextNode("Source");
-	a.appendChild(link); 
+	a.appendChild(link);
 	a.title = "Link to the source of this content."; 
-	a.href = infoLinkURL;
-	a.target = '_blank';
-	document.body.appendChild(a); 
-	/*let a = document.createElement('a');
-	a.textContent = 'Source';
-	a.setAttribute(href, infoLinkURL);
-	document.body.insertBefore(div, a);
-		//div1.appendChild(h2);
-	/*
-	var gifTitle = jsonData.data.title;
-	var caption = document.createElement("h3");
-	caption.innerHTML = gifTitle;
-	document.body.appendChild(caption);
+	a.href = linkURL;
+	a.target = "_blank";
+	a.id = "sourceLink";
+	/* The code above is the same as the following: 
+	a.setAttribute('title', 'Link to the source of this content.');
+	a.setAttribute('href', infoLinkURL);
+	a.setAttribute('target', '_blank')
+	a.setAttribute('id', 'sourceLink');
 	*/
+	document.body.appendChild(a); 
+}
+
+function clearWebPageOfOldData() {
+	let h1$ = document.getElementById('contentTitle');
+	let img$ = document.getElementById('image');
+	let a$ = document.getElementById('sourceLink');
+
+	h1$.remove();
+	img$.remove();
+
+	for (let i = 0; i < numOfContentDivs; i++) {	
+		let div$ = document.getElementById(`contentDiv${i}`);	
+		document.body.removeChild(div$);
+	}
+	
+	a$.remove();
 }
 
 function loadPageContent(keyword) {
@@ -119,5 +161,6 @@ loadPageContent(keyword);
 let select = document.getElementById('medKeyword');
 select.addEventListener('change', (e) => {
 	let newKeyword = e.target.value;
+	clearWebPageOfOldData();
 	loadPageContent(newKeyword);
 });
