@@ -78,6 +78,13 @@ function populateWebPageWithServerData(jsonData) {
 	*/
 
 	document.body.appendChild(img);
+	populateWebPageWithArticleTxt(contentSections);
+	//console.log(resource);
+	createLinkToArticleSource(infoLinkURL);
+	
+}
+
+function populateWebPageWithArticleTxt(contentSections) {
 	numOfContentDivs = contentSections.length;
 
 	for (let i = 0; i < numOfContentDivs; i++) {			
@@ -96,13 +103,14 @@ function populateWebPageWithServerData(jsonData) {
 		}
 		document.body.appendChild(div);
 	}
-	//console.log(resource);
+}
 
+function createLinkToArticleSource(linkURL) {
 	let a = document.createElement('a'); 
 	let link = document.createTextNode("Source");
 	a.appendChild(link);
 	a.title = "Link to the source of this content."; 
-	a.href = infoLinkURL;
+	a.href = linkURL;
 	a.target = "_blank";
 	a.id = "sourceLink";
 	/* The code above is the same as the following: 
@@ -113,11 +121,6 @@ function populateWebPageWithServerData(jsonData) {
 	*/
 	document.body.appendChild(a); 
 }
-
-function createLinkToArticleSource(linkURL) {
-
-}
-
 
 function clearWebPageOfOldData() {
 	let h1$ = document.getElementById('contentTitle');
@@ -134,15 +137,6 @@ function clearWebPageOfOldData() {
 	
 	a$.remove();
 }
-
-/*
-function clearWebPageOfOldData() {
-	document.body.removeChild(h1);
-	document.body.removeChild(img);
-	document.body.removeChild(div); 
-	document.body.removeChild(a);
-}
-*/
 
 function loadPageContent(keyword) {
 	fetch(`https://health.gov/myhealthfinder/api/v3/topicsearch.json?keyword=${keyword}`)
