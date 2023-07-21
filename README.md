@@ -2,7 +2,13 @@
 
 How to create a link with JavaScript: https://www.geeksforgeeks.org/how-to-create-a-link-in-javascript/
 
-How to add attributes, such as an id, to an element in the DOM, using JavaScript: https://www.delftstack.com/howto/javascript/add-id-to-element-using-javascript/
+How to add attributes, such as an id, to an element in the DOM, using JavaScript:
+
+- https://www.delftstack.com/howto/javascript/add-id-to-element-using-javascript/
+
+- https://www.javascripttutorial.net/dom/attributes/set-the-value-of-an-attribute/
+
+How to Use the Fetch API (Video Tutorial): https://www.youtube.com/watch?v=cuEtnrL9-H0&list=PLZlA0Gpn_vH9k5ju1yq9qCDqvtuTVgTr6&index=15
 
 How to remove an element from the DOM once it is no longer needed using the removeChild() method: https://www.w3schools.com/jsref/met_node_removechild.asp
 
